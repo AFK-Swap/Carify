@@ -10,8 +10,7 @@
             font-family: 'Figtree', sans-serif;
             margin: 0;
             padding: 0;
-            background-color: greenyellow;
-            /* background-color: orange; */
+            background-color: #444462;
             color: #e0e0e0;
             display: flex;
             flex-direction: column;
@@ -25,11 +24,11 @@
         }
         header h1 {
             font-size: 2.5rem;
-            color: black;
+            color: #4caf50;
         }
         header p {
             font-size: 1.2rem;
-            color: black;
+            color: #a8a8a8;
         }
         nav {
             margin-top: 20px;

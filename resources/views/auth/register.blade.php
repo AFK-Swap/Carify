@@ -1,65 +1,104 @@
 <x-guest-layout>
+    <style>
+        body {
+            background-color: #222222;
+            color: #f0f0f0;
+            font-family: Arial, sans-serif;
+        }
+
+        .form-label {
+            color: #4caf50;
+        }
+
+        .form-input {
+            display: block;
+            width: 100%;
+            margin-top: 0.25rem;
+            padding: 0.5rem;
+            background-color: #ffffff;
+            color: #000000;
+            border: 1px solid #4caf50;
+            border-radius: 4px;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: #4caf50;
+        }
+
+        .form-error {
+            margin-top: 0.5rem;
+            color: #ff4d4d;
+        }
+
+        .form-link {
+            color: #bbbbbb;
+            text-decoration: underline;
+            font-size: 0.875rem;
+        }
+
+        .form-link:hover {
+            color: #ffffff;
+        }
+
+        .form-button {
+            margin-left: 1rem;
+            padding: 0.5rem 1rem;
+            background-color: #4caf50;
+            color: #ffffff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .form-button:hover {
+            background-color: #388e3c;
+        }
+    </style>
+
     <form method="POST" action="{{ route('register') }}">
         @csrf
 
         <div>
-            <x-input-label for="name" :value="__('Name')" />
-            <x-text-input id="name" class="block mt-1 w-full" type="text" name="name" :value="old('name')" required autofocus autocomplete="name" />
-            <x-input-error :messages="$errors->get('name')" class="mt-2" />
-        </div>
-
-        
-        <div class="mt-4">
-            <x-input-label for="email" :value="__('Email')" />
-            <x-text-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required autocomplete="username" />
-            <x-input-error :messages="$errors->get('email')" class="mt-2" />
+            <label for="name" class="form-label">{{ __('Name') }}</label>
+            <input id="name" type="text" name="name" class="form-input" value="{{ old('name') }}" required autofocus autocomplete="name">
+            <div class="form-error">@error('name') {{ $message }} @enderror</div>
         </div>
 
         <div class="mt-4">
-            <x-input-label for="phone" :value="__('Phone')" />
-            <x-text-input id="phone" class="block mt-1 w-full" type="phone" name="phone" :value="old('phone')" required autocomplete="username" />
-            <x-input-error :messages="$errors->get('phone')" class="mt-2" />
+            <label for="email" class="form-label">{{ __('Email') }}</label>
+            <input id="email" type="email" name="email" class="form-input" value="{{ old('email') }}" required autocomplete="username">
+            <div class="form-error">@error('email') {{ $message }} @enderror</div>
         </div>
 
-
         <div class="mt-4">
-            <x-input-label for="address" :value="__('Address')" />
-            <x-text-input id="address" class="block mt-1 w-full" type="address" name="address" :value="old('address')" required autocomplete="username" />
-            <x-input-error :messages="$errors->get('address')" class="mt-2" />
+            <label for="phone" class="form-label">{{ __('Phone') }}</label>
+            <input id="phone" type="phone" name="phone" class="form-input" value="{{ old('phone') }}" required autocomplete="username">
+            <div class="form-error">@error('phone') {{ $message }} @enderror</div>
         </div>
 
-
-        
         <div class="mt-4">
-            <x-input-label for="password" :value="__('Password')" />
-
-            <x-text-input id="password" class="block mt-1 w-full"
-                            type="password"
-                            name="password"
-                            required autocomplete="new-password" />
-
-            <x-input-error :messages="$errors->get('password')" class="mt-2" />
+            <label for="address" class="form-label">{{ __('Address') }}</label>
+            <input id="address" type="text" name="address" class="form-input" value="{{ old('address') }}" required autocomplete="username">
+            <div class="form-error">@error('address') {{ $message }} @enderror</div>
         </div>
 
-        
         <div class="mt-4">
-            <x-input-label for="password_confirmation" :value="__('Confirm Password')" />
+            <label for="password" class="form-label">{{ __('Password') }}</label>
+            <input id="password" type="password" name="password" class="form-input" required autocomplete="new-password">
+            <div class="form-error">@error('password') {{ $message }} @enderror</div>
+        </div>
 
-            <x-text-input id="password_confirmation" class="block mt-1 w-full"
-                            type="password"
-                            name="password_confirmation" required autocomplete="new-password" />
-
-            <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2" />
+        <div class="mt-4">
+            <label for="password_confirmation" class="form-label">{{ __('Confirm Password') }}</label>
+            <input id="password_confirmation" type="password" name="password_confirmation" class="form-input" required autocomplete="new-password">
+            <div class="form-error">@error('password_confirmation') {{ $message }} @enderror</div>
         </div>
 
         <div class="flex items-center justify-end mt-4">
-            <a class="underline text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-gray-800" href="{{ route('login') }}">
-                {{ __('Already registered?') }}
-            </a>
-
-            <x-primary-button class="ms-4">
-                {{ __('Register') }}
-            </x-primary-button>
+            <a href="{{ route('login') }}" class="form-link">{{ __('Already registered?') }}</a>
+            <button type="submit" class="form-button">{{ __('Register') }}</button>
         </div>
     </form>
 </x-guest-layout>

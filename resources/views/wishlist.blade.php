@@ -25,7 +25,7 @@
                     </div>
                 </div>
             @empty
-                <p>No cars in your wishlist.</p>
+                <p class="card-text text-green-700">No cars in your wishlist.</p>
             @endforelse
         </div>
     </div>

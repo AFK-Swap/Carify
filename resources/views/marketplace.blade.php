@@ -34,16 +34,16 @@
                                             <td class="px-6 py-4 text-sm text-gray-900 dark:text-gray-100">{{ $car->car_name }}</td>
                                             <td class="px-6 py-4 text-sm text-gray-900 dark:text-gray-100">{{ $car->distance_travelled }}</td>
                                             <td class="px-6 py-4 text-sm text-gray-900 dark:text-gray-100">{{ $car->owner->name }}</td>
-                                            <td class="px-6 py-4 text-sm">
+                                            <td class="px-6 py-4 text-sm space-y-2">
+                                                <!-- Admin Actions -->
                                                 @if(auth()->user()->usertype === 'admin')
-                                                    <!-- Admin can remove the sell post -->
-                                                    <form action="{{ route('remove.sell.post', $car->id) }}" method="POST" style="display:inline-block;">
+                                                    <form action="{{ route('remove.sell.post', $car->id) }}" method="POST">
                                                         @csrf
                                                         <button type="submit" class="text-red-500 hover:text-red-700">Remove Sell Post</button>
                                                     </form>
                                                 @else
+                                                    <!-- Owner Actions -->
                                                     @if($car->user_id === auth()->id())
-                                                        <!-- Owners can remove the sale post -->
                                                         <form action="{{ route('removeSalePost', $car->id) }}" method="POST" onsubmit="return confirm('Remove this car from the marketplace?');">
                                                             @csrf
                                                             <button type="submit" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
@@ -51,48 +51,59 @@
                                                             </button>
                                                         </form>
                                                     @else
-                                                        <span class="text-gray-500 italic">Contact Owner</span>
-                                                    @endif
-                                                    <!-- Add to Wishlist -->
-                                                    @auth
-                                                        @if($car->user_id !== auth()->id())
-                                                            <form action="{{ route('wishlist.add', $car->id) }}" method="POST" class="mt-2">
-                                                                @csrf
-                                                                @if(in_array($car->id, $wishlistCarIds ?? []))
-                                                                    <button type="button" disabled class="bg-gray-400 text-white font-bold py-2 px-4 rounded cursor-not-allowed">
-                                                                        Already in Wishlist
-                                                                    </button>
+                                                        <!-- Regular User Actions -->
+                                                        <div class="space-y-2">
+                                                            <div class="text-gray-500 italic">Contact Owner</div>
+                                                            
+                                                            @if(auth()->user()->usertype !== 'admin')
+                                                                @if(in_array($car->id, $wishlistCarIds))
+                                                                    <form action="{{ route('wishlist.remove', $car->id) }}" method="POST">
+                                                                        @csrf
+                                                                        @method('DELETE')
+                                                                        <button type="submit" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
+                                                                            Remove from Wishlist
+                                                                        </button>
+                                                                    </form>
                                                                 @else
-                                                                    <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-                                                                        Add to Wishlist
-                                                                    </button>
+                                                                    <form action="{{ route('wishlist.add', $car->id) }}" method="POST">
+                                                                        @csrf
+                                                                        <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                                                                            Add to Wishlist
+                                                                        </button>
+                                                                    </form>
                                                                 @endif
-                                                            </form>
-                                                        @endif
-                                                    @endauth
+                                                            @endif
+                                                        </div>
+                                                    @endif
                                                 @endif
                                             </td>
                                         </tr>
                                         <tr class="hover:bg-gray-100 dark:hover:bg-gray-700">
                                             <td colspan="5" class="px-6 py-4">
-                                                <h5 class="font-bold">Comments for {{ $car->car_name }}</h5>
+                                                <h5 class="font-bold text-gray-900 dark:text-gray-100 mb-3">Comments for {{ $car->car_name }}</h5>
                                                 @foreach($car->comments as $comment)
-                                                    <div class="bg-gray-100 dark:bg-gray-700 p-3 rounded mb-2">
-                                                        <p class="text-sm">{{ $comment->comment }}</p>
-                                                        <p class="text-xs text-gray-500">- {{ $comment->user->name }}</p>
+                                                    <div class="bg-gray-50 dark:bg-gray-700 p-3 rounded mb-2">
+                                                        <p class="text-sm text-gray-800 dark:text-gray-200">{{ $comment->comment }}</p>
+                                                        <p class="text-xs text-gray-600 dark:text-gray-400 mt-1">- {{ $comment->user->name }}</p>
                                                         @if(auth()->user()->usertype === 'admin')
-                                                            <form action="{{ route('delete.comment', $comment->id) }}" method="POST" style="display:inline-block;">
+                                                            <form action="{{ route('admin.comment.delete', $comment->id) }}" method="POST" class="mt-2">
                                                                 @csrf
-                                                                <button type="submit" class="text-red-500 hover:text-red-700">Delete Comment</button>
+                                                                @method('DELETE')
+                                                                <button type="submit" class="text-red-500 hover:text-red-700 text-sm">Delete Comment</button>
                                                             </form>
                                                         @endif
                                                     </div>
                                                 @endforeach
                                                 <form action="{{ route('storeComment', $car->id) }}" method="POST" class="mt-2">
                                                     @csrf
-                                                    <textarea name="comment" class="w-full p-2 border rounded" rows="3" placeholder="Add a comment..."></textarea>
+                                                    <textarea 
+                                                        name="comment" 
+                                                        class="w-full p-2 border rounded bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 border-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:ring-blue-500 dark:focus:ring-blue-500" 
+                                                        rows="3" 
+                                                        placeholder="Add a comment..."
+                                                    ></textarea>
                                                     <button type="submit" class="mt-2 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-                                                        Submit
+                                                        Add Comment
                                                     </button>
                                                 </form>
                                             </td>

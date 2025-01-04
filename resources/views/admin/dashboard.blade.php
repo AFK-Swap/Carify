@@ -1,8 +1,21 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-            {{ __('Admin Dashboard') }}
-        </h2>
+        <div class="flex justify-between items-center">
+            <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
+                {{ __('Admin Dashboard') }}
+            </h2>
+            <form method="POST" action="{{ route('logout') }}" class="inline">
+                @csrf
+                <button type="submit" class="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2">
+                    <div class="flex items-center space-x-2">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+                        </svg>
+                        <span>{{ __('Log Out') }}</span>
+                    </div>
+                </button>
+            </form>
+        </div>
     </x-slot>
 
     <div class="py-12">

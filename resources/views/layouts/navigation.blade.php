@@ -5,7 +5,15 @@
             <div class="flex">
                 <!-- Logo -->
                 <div class="shrink-0 flex items-center">
-                    <a href="{{ route('dashboard') }}" class="flex items-center space-x-2">
+                    @auth
+                        @if(Auth::user()->usertype === 'admin')
+                            <a href="{{ route('admin.dashboard') }}" class="flex items-center space-x-2">
+                        @else
+                            <a href="{{ route('dashboard') }}" class="flex items-center space-x-2">
+                        @endif
+                    @else
+                        <a href="{{ route('dashboard') }}" class="flex items-center space-x-2">
+                    @endauth
                         <x-application-logo class="block h-9 w-auto fill-current text-blue-600 dark:text-blue-500" />
                         <span class="text-xl font-bold text-gray-900 dark:text-white">Carify</span>
                     </a>
@@ -21,6 +29,14 @@
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"/>
                                 </svg>
                                 {{ __('Admin Dashboard') }}
+                            </x-nav-link>
+                            
+                            <x-nav-link :href="route('marketplace')" :active="request()->routeIs('marketplace')" 
+                                      class="nav-link {{ request()->routeIs('marketplace') ? 'active' : '' }}">
+                                <svg class="w-5 h-5 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"/>
+                                </svg>
+                                {{ __('Marketplace') }}
                             </x-nav-link>
                         @else
                             <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')"
@@ -85,7 +101,7 @@
                     @auth
                         <x-dropdown align="right" width="48">
                             <x-slot name="trigger">
-                                <button class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 dark:text-gray-400 bg-white dark:bg-gray-800 hover:text-gray-700 dark:hover:text-gray-300 focus:outline-none transition ease-in-out duration-150">
+                                <button class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 dark:text-gray-400 bg-white dark:bg-gray-800 hover:text-gray-700 dark:hover:text-gray-300 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 rounded-lg text-sm p-2.5">
                                     <div class="flex items-center">
                                         <img class="h-8 w-8 rounded-full object-cover mr-2" src="{{ Auth::user()->profile_photo_url ?? 'https://ui-avatars.com/api/?name='.urlencode(Auth::user()->name) }}" alt="{{ Auth::user()->name }}">
                                         <span>{{ Auth::user()->name }}</span>
@@ -100,21 +116,16 @@
                             </x-slot>
 
                             <x-slot name="content">
-                                <x-dropdown-link :href="route('profile.edit')" class="flex items-center">
-                                    <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
-                                    </svg>
+                                <x-dropdown-link :href="route('profile.edit')">
                                     {{ __('Profile') }}
                                 </x-dropdown-link>
 
                                 <!-- Authentication -->
                                 <form method="POST" action="{{ route('logout') }}">
                                     @csrf
-                                    <x-dropdown-link :href="route('logout')" class="flex items-center"
-                                            onclick="event.preventDefault(); this.closest('form').submit();">
-                                        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/>
-                                        </svg>
+                                    <x-dropdown-link :href="route('logout')"
+                                        onclick="event.preventDefault();
+                                        this.closest('form').submit();">
                                         {{ __('Log Out') }}
                                     </x-dropdown-link>
                                 </form>
@@ -152,6 +163,9 @@
                 @if(Auth::user()->usertype === 'admin')
                     <x-responsive-nav-link :href="route('admin.dashboard')" :active="request()->routeIs('admin.dashboard')">
                         {{ __('Admin Dashboard') }}
+                    </x-responsive-nav-link>
+                    <x-responsive-nav-link :href="route('marketplace')" :active="request()->routeIs('marketplace')">
+                        {{ __('Marketplace') }}
                     </x-responsive-nav-link>
                 @else
                     <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">

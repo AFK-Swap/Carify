@@ -412,4 +412,22 @@ class CarController extends Controller
             ], 500);
         }
     }
+
+    /**
+     * Delete a comment (Admin only)
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function deleteComment($id)
+    {
+        try {
+            // Find and delete the comment
+            $comment = DB::table('comments')->where('id', $id)->delete();
+            
+            return back()->with('success', 'Comment deleted successfully.');
+        } catch (\Exception $e) {
+            return back()->with('error', 'Error deleting comment.');
+        }
+    }
 }

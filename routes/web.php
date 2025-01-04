@@ -10,7 +10,13 @@ use App\Models\Notification;
 
 
 Route::get('/', function () {
-    return view('welcome');
+    if (auth()->check()) {
+        if (auth()->user()->usertype === 'admin') {
+            return redirect()->route('admin.dashboard');
+        }
+        return redirect()->route('marketplace');
+    }
+    return redirect()->route('login');
 });
 
 Route::middleware(['auth', 'verified'])->group(function () {
@@ -60,6 +66,9 @@ Route::middleware(['auth', 'admin'])->group(function () {
 
     // Delete user
     Route::delete('admin/user/{user}', [HomeController::class, 'deleteUser'])->name('admin.delete');
+
+    // Delete comment
+    Route::delete('admin/comments/{comment}', [CarController::class, 'deleteComment'])->name('admin.comment.delete');
 });
 
 Route::post('/remove-sell/{car}', [CarController::class, 'removeSell'])->name('remove.sell.post');

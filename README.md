@@ -3,8 +3,6 @@
 
 A comprehensive full-stack car rental and marketplace platform built with Laravel 11 and React 18, featuring advanced car management, user authentication, and marketplace functionality.
 
-## 🚀 **Live Demo**
-*Add your live demo link here*
 
 ## 📋 **Table of Contents**
 - [Features](#features)
@@ -238,7 +236,7 @@ php artisan test --coverage
 
 **Course**: CSE470 - Software Engineering  
 **Institution**: BRAC University  
-**Semester**: [Add semester information]  
+**Semester**: Fall 2024
 **Focus**: Practical application of software engineering methodologies
 
 ### **Learning Outcomes**
@@ -257,9 +255,6 @@ php artisan test --coverage
 4. Push to the branch (`git push origin feature/AmazingFeature`)
 5. Open a Pull Request
 
-## 📝 **License**
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 ## 👨‍💻 **Author**
 
@@ -267,7 +262,6 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 - GitHub: [@AFK-Swap](https://github.com/AFK-Swap)
 - Email: fahmidur.i.swapnil@gmail.com
 - University: BRAC University
-- Student ID: 22101227
 
 ## 🙏 **Acknowledgments**
 

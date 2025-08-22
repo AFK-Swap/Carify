@@ -232,12 +232,6 @@ php artisan test --coverage
 - Real-time updates using Laravel Echo (optional)
 - Email and in-app notifications
 
-## 🎓 **Academic Context**
-
-**Course**: CSE470 - Software Engineering  
-**Institution**: BRAC University  
-**Semester**: Fall 2024
-**Focus**: Practical application of software engineering methodologies
 
 ### **Learning Outcomes**
 - Full-stack web development with modern frameworks
